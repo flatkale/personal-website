@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data is the hard part — Etai Mizrahi</title>
+  <style>
+    :root {
+      --cyan: #00D4FF;
+      --purple: #7C3AED;
+      --bg: #07070f;
+      --border: rgba(255,255,255,0.07);
+      --text: #f0f0f0;
+      --muted: rgba(255,255,255,0.38);
+      --mid: rgba(255,255,255,0.62);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { color-scheme: dark; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 15.5px;
+      line-height: 1.7;
+      padding: 72px 24px 100px;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent);
+      z-index: 50;
+    }
+    #orb {
+      position: fixed;
+      pointer-events: none;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, rgba(124,58,237,0.04) 40%, transparent 70%);
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      will-change: left, top;
+    }
+    .blob { position: fixed; border-radius: 50%; pointer-events: none; filter: blur(80px); z-index: 0; }
+    .blob-1 { width: 480px; height: 480px; top: -120px; right: -80px; background: radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%); animation: drift1 18s ease-in-out infinite alternate; }
+    .blob-2 { width: 420px; height: 420px; bottom: -80px; left: -100px; background: radial-gradient(circle, rgba(124,58,237,0.09) 0%, transparent 70%); animation: drift2 22s ease-in-out infinite alternate; }
+    @keyframes drift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(30px,50px) scale(1.1); } }
+    @keyframes drift2 { from { transform: translate(0,0) scale(1); } to { transform: translate(-25px,-40px) scale(1.08); } }
+    .container { max-width: 580px; margin: 0 auto; position: relative; z-index: 1; }
+    a { color: rgba(255,255,255,0.75); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1); transition: color 0.15s, border-color 0.15s; }
+    a:hover { color: var(--cyan); border-color: rgba(0,212,255,0.4); }
+    .back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.83rem; color: var(--muted); border: none; margin-bottom: 48px; transition: color 0.15s; }
+    .back:hover { color: var(--cyan); border: none; }
+    .post-date { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px; }
+    h1 { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.035em; line-height: 1.18; color: #fff; margin-bottom: 48px; }
+    .post-body { font-size: 1rem; color: var(--mid); line-height: 1.85; }
+    .post-body p { margin-bottom: 1.5em; }
+    .post-body h2 { font-size: 1.05rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; margin: 2.4em 0 0.7em; }
+    .divider { height: 1px; background: var(--border); margin: 52px 0 40px; }
+    .post-footer { font-size: 0.85rem; color: var(--muted); }
+    @media (max-width: 480px) { body { padding: 52px 20px 80px; } h1 { font-size: 1.5rem; } }
+  </style>
+</head>
+<body>
+  <div id="orb"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="container">
+
+    <a class="back" href="../index.html">← Etai Mizrahi</a>
+
+    <p class="post-date">October 2023</p>
+    <h1>Data is the hard part</h1>
+
+    <div class="post-body">
+
+      <p>In 1987, Fred Brooks wrote an essay called "No Silver Bullet" arguing that software complexity comes in two flavors. Accidental complexity is the friction we create for ourselves through bad tools and bad process. It can be engineered away. Essential complexity is the irreducible difficulty of the problem itself. It can't. You can only face it.</p>
+
+      <p>Most of what's happening in enterprise AI right now is companies trying to treat essential complexity as if it were accidental. They buy a model, connect it to a few databases, and expect transformation. What they get is a confident-sounding system that sometimes makes things up and can't answer the questions that actually matter. They blame the model. The model isn't the problem.</p>
+
+      <p>The data is the hard part. It has always been the hard part.</p>
+
+      <p>There's a concept in information theory that Shannon formalized but that people have understood intuitively for centuries: data and information are not the same thing. Data is signal plus noise with no label on either. Information is what remains after you've resolved the uncertainty. Most enterprise data is data in the technical sense. It's not information. It's accumulated record-keeping with no map, no provenance, and no shared interpretation across teams.</p>
+
+      <p>When you connect a language model to that, you get a system that's very good at sounding authoritative about things it cannot actually know. That's worse than no system at all, because it corrodes trust without anyone noticing until something goes wrong publicly.</p>
+
+      <p>I spent three years watching companies try to solve this with tooling first. Buy the catalog, buy the governance platform, hire the data engineers. The tooling helps. But the companies that genuinely fix their data problems do it because someone senior decided the data was worth caring about -- not as a technical initiative but as an organizational one. Without that, the tooling becomes shelfware and the pipelines stay undocumented and the metrics stay inconsistent and the AI layer built on top of all of it stays untrustworthy.</p>
+
+      <p>Goodhart's Law says that when a measure becomes a target, it ceases to be a good measure. Something similar happens to data quality when it becomes a project instead of a practice. You clean things up for the launch, declare victory, and six months later the documentation has drifted and the new tables have no owners and you're back where you started.</p>
+
+      <p>The companies that will win with AI over the next decade are not the ones that moved fastest to deploy models. They're the ones that spent 2022 and 2023 doing the unglamorous work of making their data actually trustworthy. The compounding works in both directions. Good data makes every AI investment more valuable. Bad data makes every AI investment a liability.</p>
+
+      <p>Nobody wants to give a talk at a conference about their data governance journey. That's part of why this gap keeps growing.</p>
+
+    </div>
+
+    <div class="divider"></div>
+    <p class="post-footer"><a href="../index.html">← Back</a></p>
+  </div>
+  <script>
+    const orb = document.getElementById('orb');
+    let mx = window.innerWidth / 2, my = window.innerHeight / 2, cx = mx, cy = my;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animate() { cx += (mx-cx)*0.08; cy += (my-cy)*0.08; orb.style.left=cx+'px'; orb.style.top=cy+'px'; requestAnimationFrame(animate); }
+    animate();
+  </script>
+</body>
+</html>

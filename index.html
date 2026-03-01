@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Etai Mizrahi</title>
+  <meta name="description" content="Etai Mizrahi — co-founder of Secoda (YC S21), acquired by Atlassian." />
+  <style>
+    :root {
+      --cyan: #00D4FF;
+      --purple: #7C3AED;
+      --bg: #07070f;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.07);
+      --text: #f0f0f0;
+      --muted: rgba(255,255,255,0.38);
+      --mid: rgba(255,255,255,0.62);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      color-scheme: dark;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
+      font-size: 15.5px;
+      line-height: 1.7;
+      padding: 72px 24px 100px;
+      overflow-x: hidden;
+    }
+
+    /* ── Gradient top bar ── */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent);
+      z-index: 50;
+    }
+
+    /* ── Mouse orb ── */
+    #orb {
+      position: fixed;
+      pointer-events: none;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(0, 212, 255, 0.06) 0%,
+        rgba(124, 58, 237, 0.04) 40%,
+        transparent 70%
+      );
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      will-change: left, top;
+    }
+
+    /* ── Background ambient blobs ── */
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(80px);
+      z-index: 0;
+      opacity: 1;
+    }
+
+    .blob-1 {
+      width: 480px;
+      height: 480px;
+      top: -120px;
+      right: -80px;
+      background: radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%);
+      animation: drift1 18s ease-in-out infinite alternate;
+    }
+
+    .blob-2 {
+      width: 420px;
+      height: 420px;
+      bottom: -80px;
+      left: -100px;
+      background: radial-gradient(circle, rgba(124,58,237,0.09) 0%, transparent 70%);
+      animation: drift2 22s ease-in-out infinite alternate;
+    }
+
+    @keyframes drift1 {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, 50px) scale(1.1); }
+    }
+    @keyframes drift2 {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(-25px, -40px) scale(1.08); }
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 580px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Name ── */
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.15;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .tagline {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 30px;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Bio ── */
+    .bio {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+
+    .bio li {
+      font-size: 0.93rem;
+      color: var(--mid);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .bio li::before {
+      content: "·";
+      position: absolute;
+      left: 4px;
+      color: var(--cyan);
+      font-size: 1.2em;
+      line-height: 1.4;
+    }
+
+    /* ── Currently ── */
+    .now {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 0.83rem;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .now-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 6px #22c55e;
+      flex-shrink: 0;
+      animation: glow 2.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 4px #22c55e; opacity: 1; }
+      to   { box-shadow: 0 0 10px #22c55e; opacity: 0.6; }
+    }
+
+    /* ── Contact ── */
+    .contact {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .contact a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .contact a:hover {
+      color: var(--cyan);
+    }
+
+    .contact .sep {
+      color: rgba(255,255,255,0.15);
+      user-select: none;
+      margin: 0 4px;
+    }
+
+    /* ── Links (global) ── */
+    a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    a:hover {
+      color: var(--cyan);
+      border-color: rgba(0,212,255,0.4);
+    }
+
+    /* ── Section ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 52px 0;
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: rgba(255,255,255,0.22);
+      margin-bottom: 22px;
+    }
+
+    /* ── Companies ── */
+    .companies {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .company {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2px 16px;
+    }
+
+    .company-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      border: none;
+    }
+
+    .company-name:hover {
+      color: var(--cyan);
+      border: none;
+    }
+
+    .company-status {
+      font-size: 0.75rem;
+      color: var(--muted);
+      white-space: nowrap;
+      text-align: right;
+      padding-top: 2px;
+    }
+
+    .company-desc {
+      font-size: 0.87rem;
+      color: var(--muted);
+      line-height: 1.55;
+      grid-column: 1 / -1;
+    }
+
+    /* ── Writing ── */
+    .writing-list {
+      list-style: none;
+    }
+
+    .writing-list li {
+      border-top: 1px solid var(--border);
+    }
+
+    .writing-list li:last-child {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .writing-list a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+      color: var(--mid);
+      font-size: 0.9rem;
+      border: none;
+      transition: color 0.15s;
+    }
+
+    .writing-list a:hover {
+      color: #fff;
+      border: none;
+    }
+
+    .writing-arrow {
+      color: rgba(255,255,255,0.18);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      transition: color 0.15s, transform 0.2s;
+    }
+
+    .writing-list a:hover .writing-arrow {
+      color: var(--cyan);
+      transform: translateX(4px);
+    }
+
+    .writing-empty {
+      font-size: 0.88rem;
+      color: var(--muted);
+      padding: 14px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Post page ── */
+    .post-header {
+      margin-bottom: 48px;
+    }
+
+    .post-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.83rem;
+      color: var(--muted);
+      border: none;
+      margin-bottom: 36px;
+      transition: color 0.15s;
+    }
+
+    .post-back:hover {
+      color: var(--cyan);
+      border: none;
+    }
+
+    .post-date {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    .post-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      color: #fff;
+      margin-bottom: 0;
+    }
+
+    .post-body {
+      font-size: 1rem;
+      color: var(--mid);
+      line-height: 1.8;
+    }
+
+    .post-body p { margin-bottom: 1.4em; }
+    .post-body h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 2em 0 0.6em;
+      letter-spacing: -0.02em;
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 52px 20px 80px; }
+      h1 { font-size: 1.7rem; }
+      .company { grid-template-columns: 1fr; }
+      .company-status { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="orb"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <div class="container">
+
+    <main>
+      <h1>Etai Mizrahi</h1>
+      <p class="tagline">Founder &nbsp;·&nbsp; Builder &nbsp;·&nbsp; Angel investor</p>
+
+      <ul class="bio">
+        <li>Co-founded <a href="https://www.secoda.co" target="_blank" rel="noopener">Secoda</a> — the AI layer for your data. Backed by <a href="https://www.ycombinator.com/companies/secoda" target="_blank" rel="noopener">Y Combinator</a> and Craft Ventures. Acquired by <a href="https://www.atlassian.com" target="_blank" rel="noopener">Atlassian</a> in 2025.</li>
+        <li>Before that, co-founded Correly — real-time co-browsing for sales teams. Acquired by Acadium in 2019.</li>
+        <li>Angel investor in early-stage startups.</li>
+        <li>Obsessed with data and AI.</li>
+        <li>Based in Toronto.</li>
+      </ul>
+
+      <div class="now">
+        <span class="now-dot"></span>
+        Now at Atlassian — building the data platform and AI.
+      </div>
+
+      <div class="contact">
+        <a href="mailto:etaimiz@gmail.com">etaimiz@gmail.com</a>
+        <span class="sep">·</span>
+        <a href="https://twitter.com/etaimizrahi1" target="_blank" rel="noopener">Twitter</a>
+        <span class="sep">·</span>
+        <a href="https://www.linkedin.com/in/etai-mizrahi-07656aa1/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </main>
+
+    <div class="divider"></div>
+
+    <section>
+      <p class="section-label">Companies</p>
+      <div class="companies">
+        <div class="company">
+          <a class="company-name" href="https://www.secoda.co" target="_blank" rel="noopener">Secoda</a>
+          <span class="company-status">YC S21 · Acq. Atlassian 2025</span>
+          <p class="company-desc">AI-powered data catalog. Raised $17M from Craft Ventures, Golden Ventures, and YC.</p>
+        </div>
+        <div class="company">
+          <span class="company-name">Correly</span>
+          <span class="company-status">Next36 · Acq. Acadium 2019</span>
+          <p class="company-desc">Real-time co-browsing for sales teams. 200+ companies, 10,000+ hours of calls.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section>
+      <p class="section-label">Writing</p>
+      <ul class="writing-list">
+        <li>
+          <a href="writing/reflections-from-an-acquisition.html">
+            Reflections from an acquisition
+            <span class="writing-arrow">→</span>
+          </a>
+        </li>
+        <li>
+          <a href="writing/canada-startup-problem.html">
+            Canada doesn't have a talent problem
+            <span class="writing-arrow">→</span>
+          </a>
+        </li>
+        <li>
+          <a href="writing/data-is-the-hard-part.html">
+            Data is the hard part
+            <span class="writing-arrow">→</span>
+          </a>
+        </li>
+        <li>
+          <a href="writing/what-early-stage-actually-means.html">
+            What early stage actually means
+            <span class="writing-arrow">→</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+  </div>
+
+  <script>
+    const orb = document.getElementById('orb');
+    let mx = window.innerWidth / 2;
+    let my = window.innerHeight / 2;
+    let cx = mx, cy = my;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX;
+      my = e.clientY;
+    });
+
+    function animate() {
+      cx += (mx - cx) * 0.08;
+      cy += (my - cy) * 0.08;
+      orb.style.left = cx + 'px';
+      orb.style.top  = cy + 'px';
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+
+</body>
+</html>
